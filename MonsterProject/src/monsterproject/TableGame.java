@@ -1,10 +1,32 @@
 package monsterproject;
 
+import java.util.ArrayList;
+import javax.swing.JButton;
+
 /**
  *
  * @author paqch
  */
 public class TableGame extends javax.swing.JFrame {
+    
+    private GameLog addplayers = new GameLog();
+    ArrayList<String>temp = new ArrayList<>();
+    String[] pids;
+    Game game;
+    ArrayList<JButton> cardButtons = new ArrayList <JButton>();
+    ArrayList <String> cardIds;
+    //PopUp window;
+    
+    public TableGame (ArrayList <String> playerIds){
+        initComponents();
+        temp = playerIds;
+        pids= temp.toArray(new String[temp.size()]);
+        game = new Game(pids);
+    }
+    
+    public void populateArrayList(){
+        
+    }
 
     /**
      * Creates new form TableGame
