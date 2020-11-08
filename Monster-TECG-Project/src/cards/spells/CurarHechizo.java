@@ -1,10 +1,12 @@
 package cards.spells;
 
 
+import java.util.ArrayList;
+
 import cards.Card;
 import cards.MonsterCard;
 
-public class CurarHechizo extends SpellCard {
+public class CurarHechizo extends Raigeki {
 
 	public CurarHechizo(String name, String desc) {
 
@@ -14,8 +16,15 @@ public class CurarHechizo extends SpellCard {
 
 	public void action(MonsterCard monster) {
 
-		Card.getBoard().getActivePlayer().addNCardsToHand(2);
+		super.action(monster);
+
+		ArrayList<MonsterCard> monsters = Card.getBoard().getActivePlayer()
+				.getField().getMonstersArea();
+
+		Card.getBoard().getActivePlayer().getField()
+				.removeMonsterToGraveyard(new ArrayList<MonsterCard>(monsters));
 
 	}
 
 }
+
