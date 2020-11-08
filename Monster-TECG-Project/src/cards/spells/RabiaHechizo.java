@@ -1,9 +1,12 @@
 package cards.spells;
 
 
+import java.util.ArrayList;
+
+import cards.Card;
 import cards.MonsterCard;
 
-public class RabiaHechizo extends SpellCard {
+public class RabiaHechizo extends PoderSupremoHechizo {
 
 	public RabiaHechizo(String name, String desc) {
 
@@ -13,12 +16,15 @@ public class RabiaHechizo extends SpellCard {
 
 	public void action(MonsterCard monster) {
 		
-		int monsterCardsCount = ArrepentimientoHechizo.getBoard().getActivePlayer()
-				.getField().getMonstersArea().size();
+		super.action(monster);
 		
-		monster.setAttackPoints(monster.getAttackPoints()
-				+ (125 * monsterCardsCount));
+		ArrayList<SpellCard> spells = Card.getBoard().getActivePlayer()
+				.getField().getSpellArea();
+		
+		Card.getBoard().getActivePlayer().getField()
+				.removeSpellToGraveyard(new ArrayList<SpellCard>(spells));
 
 	}
 
 }
+
