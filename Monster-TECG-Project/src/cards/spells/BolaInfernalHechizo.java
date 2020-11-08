@@ -1,5 +1,6 @@
 package cards.spells;
 
+import cards.Card;
 import cards.MonsterCard;
 
 public class BolaInfernalHechizo extends SpellCard {
@@ -11,13 +12,13 @@ public class BolaInfernalHechizo extends SpellCard {
 	}
 
 	public void action(MonsterCard monster) {
+		Card.getBoard().getOpponentPlayer().getField().getMonstersArea()
+		.remove(monster);
 
-		int spellCardsCount = ArrepentimientoHechizo.getBoard().getActivePlayer()
-				.getField().getSpellArea().size();
+		monster.setHidden(false);
 		
-		monster.setAttackPoints(monster.getAttackPoints() + (50 * spellCardsCount));
-		
-
+		Card.getBoard().getActivePlayer().getField().getMonstersArea()
+		.add(monster);
 	}
-
 }
+
