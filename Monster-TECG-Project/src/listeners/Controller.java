@@ -683,12 +683,12 @@ public class Controller implements ActionListener,MouseListener {
 						else{
 							switch (card.getName()) {
 
-							case "Card Destruction":
+							case "Arrepentimiento Hechizo":
 								board.getActivePlayer().activateSpell(card, null);
 								updatefield();
 								fc = null;
 								return;
-							case "Change Of Heart":
+							case "Bola Infernal Hechizo":
 								String[] options = { "ok", "cancel"};
 
 								int x = JOptionPane.showOptionDialog(null, "Choose the monster you wish to control", "SpellCard",
@@ -699,27 +699,27 @@ public class Controller implements ActionListener,MouseListener {
 								}
 								fc=null;
 								return;
-							case "Dark Hole":
+							case "Curar Hechizo":
 								board.getActivePlayer().activateSpell(card, null);
 								updatefield();
 								fc = null;
 								return;
-							case "Graceful Dice":
+							case "Poder Divino Hechizo":
 								board.getActivePlayer().activateSpell(card, null);
 								updatefield();
 								fc = null;
 								return;
-							case "Harpie's Feather Duster":
+							case "Poder Supremo Hechizo":
 								board.getActivePlayer().activateSpell(card, null);
 								updatefield();
 								fc = null;
 								return;
-							case "Heavy Storm":
+							case "Robar Hechizo":
 								board.getActivePlayer().activateSpell(card, null);
 								updatefield();
 								fc = null;
 								return;
-							case "Mage Power":
+							case "Rabia Hechizo":
 								String[] options1 = { "ok", "cancel"};
 
 								int x1 = JOptionPane.showOptionDialog(null, "Choose the monster you wish to enhance", "SpellCard",
@@ -735,7 +735,7 @@ public class Controller implements ActionListener,MouseListener {
 								updatefield();
 								fc = null;
 								return;
-							case "Pot of Greed":
+							case "Rayo Hechizo":
 								board.getActivePlayer().activateSpell(card, null);
 								updatefield();
 								fc = null;
