@@ -22,3 +22,4 @@ public class ArrepentimientoHechizo extends SpellCard {
 	}
 
 }
+
