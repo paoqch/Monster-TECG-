@@ -278,7 +278,7 @@ public class Gui extends JFrame {
 	}
 
 	public Gui(Player p1,Player p2) throws IOException, UnexpectedFormatException{
-		super("Yu-Gi-OH");
+		super("Monster-TECG");
 		Board b = new Board();
 		b.startGame(p1, p2);
 		setP1(p1);
