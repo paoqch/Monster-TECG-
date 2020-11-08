@@ -53,8 +53,6 @@ import gui.SpellsPanel;
 
 public class Controller implements ActionListener,MouseListener {
 
-
-
 	private JButton fc;
 	private JButton sc;
 	private JButton tc;
@@ -69,7 +67,6 @@ public class Controller implements ActionListener,MouseListener {
 		gui.getEndturn().addActionListener(this);
 		gui.getNextphase().addActionListener(this);
 	}
-
 
 	public void addActionListeners(){
 		ArrayList<MonsterButton> handp1 = this.gui.getHandp1().getMonsterbuttons();
@@ -131,12 +128,6 @@ public class Controller implements ActionListener,MouseListener {
 
 	}
 
-
-
-
-
-
-
 	private void updatefield() {
 		
 		if(board.isGameOver()){
@@ -156,7 +147,6 @@ public class Controller implements ActionListener,MouseListener {
 				}
 			}
 		}
-
 
 		gui.getDeckp1().setText("" + gui.getP1().getField().getDeck().getDeck().size());
 		gui.getDeckp2().setText("" + gui.getP2().getField().getDeck().getDeck().size());
@@ -281,26 +271,11 @@ public class Controller implements ActionListener,MouseListener {
 		//gui.getHandp1().update(gui.getP1());
 		gui.revalidate();
 
-
-
 	}
-
-
-
 
 	public void seticons(){
 
 	}
-
-
-
-
-
-
-
-
-
-
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -344,10 +319,6 @@ public class Controller implements ActionListener,MouseListener {
 			gui.getDescription().revalidate();
 			gui.revalidate();
 		}
-
-
-
-
 
 	}
 
@@ -798,12 +769,12 @@ public class Controller implements ActionListener,MouseListener {
 						else{
 							switch (card.getName()) {
 
-							case "Card Destruction":
+							case "Arrepentimiento Hechizo":
 								board.getActivePlayer().activateSpell(card, null);
 								updatefield();
 								fc = null;
 								return;
-							case "Change Of Heart":
+							case "Bola Infernal Hechizo":
 								String[] options = { "ok", "cancel"};
 
 								int x = JOptionPane.showOptionDialog(null, "Choose the monster you wish to control", "SpellCard",
@@ -814,27 +785,27 @@ public class Controller implements ActionListener,MouseListener {
 								}
 								fc=null;
 								return;
-							case "Dark Hole":
+							case "Curar Hechizo":
 								board.getActivePlayer().activateSpell(card, null);
 								updatefield();
 								fc = null;
 								return;
-							case "Graceful Dice":
+							case "Poder Divino Hechizo":
 								board.getActivePlayer().activateSpell(card, null);
 								updatefield();
 								fc = null;
 								return;
-							case "Harpie's Feather Duster":
+							case "Poder Supremo Hechizo":
 								board.getActivePlayer().activateSpell(card, null);
 								updatefield();
 								fc = null;
 								return;
-							case "Heavy Storm":
+							case "Robar Hechizo":
 								board.getActivePlayer().activateSpell(card, null);
 								updatefield();
 								fc = null;
 								return;
-							case "Mage Power":
+							case "Rabia Hechizo":
 								String[] options1 = { "ok", "cancel"};
 
 								int x1 = JOptionPane.showOptionDialog(null, "Choose the monster you wish to enhance", "SpellCard",
@@ -850,7 +821,7 @@ public class Controller implements ActionListener,MouseListener {
 								updatefield();
 								fc = null;
 								return;
-							case "Pot of Greed":
+							case "Rayo Hechizo":
 								board.getActivePlayer().activateSpell(card, null);
 								updatefield();
 								fc = null;
