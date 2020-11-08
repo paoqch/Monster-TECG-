@@ -24,3 +24,4 @@ public class Raigeki extends SpellCard {
 	}
 
 }
+
