@@ -1,5 +1,6 @@
 package cards.spells;
 
+import cards.Card;
 import cards.MonsterCard;
 
 public class RayoHechizo extends SpellCard {
@@ -12,11 +13,7 @@ public class RayoHechizo extends SpellCard {
 
 	public void action(MonsterCard monster) {
 
-		int monsterCardsCount = ArrepentimientoHechizo.getBoard().getActivePlayer()
-				.getField().getMonstersArea().size();
-		
-		monster.setAttackPoints(monster.getAttackPoints()
-				+ (300 * monsterCardsCount));
+		Card.getBoard().getActivePlayer().addNCardsToHand(2);
 
 	}
 
