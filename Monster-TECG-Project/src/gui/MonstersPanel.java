@@ -7,12 +7,10 @@ import java.awt.Image;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import board.player.Player;
 import cards.Mode;
-import cards.MonsterCard;
 
 public class MonstersPanel extends JPanel {
 	/**
@@ -63,8 +61,5 @@ public class MonstersPanel extends JPanel {
 	public void setMonsters(ArrayList<MonsterButton> monsters) {
 		this.monsters = monsters;
 	}
-
-	
-	
 
 }
