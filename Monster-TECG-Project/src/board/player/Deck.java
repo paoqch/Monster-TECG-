@@ -3,22 +3,35 @@ package board.player;
 import cards.Card;
 import cards.Location;
 import cards.MonsterCard;
-import cards.spells.ArrepentimientoHechizo;
-import cards.spells.BolaInfernalHechizo;
-import cards.spells.CurarHechizo;
-import cards.spells.PoderDivinoHechizo;
-import cards.spells.PoderSupremoHechizo;
-import cards.spells.RobarHechizo;
-import cards.spells.RabiaHechizo;
-import cards.spells.MonsterReborn;
-import cards.spells.RayoHechizo;
-import cards.spells.Raigeki;
-import cards.spells.SpellCard;
+
+import cards.spsr.ArrepentimientoHechizo;
+import cards.spsr.BolaInfernalHechizo;
+import cards.spsr.CurarHechizo;
+import cards.spsr.PoderDivinoHechizo;
+import cards.spsr.PoderSupremoHechizo;
+import cards.spsr.RobarHechizo;
+import cards.spsr.RabiaHechizo;
+import cards.spsr.MonsterReborn;
+import cards.spsr.RayoHechizo;
+import cards.spsr.Raigeki;
+import cards.spsr.SpSrCard;
+
+import cards.spsr.BajaDano;
+import cards.spsr.BloqueoHechizo;
+import cards.spsr.Bomba;
+import cards.spsr.Cementerio;
+import cards.spsr.Confusion;
+import cards.spsr.DobleDano;
+import cards.spsr.Escudo;
+import cards.spsr.MasVida;
+import cards.spsr.Terremoto;
+import cards.spsr.UltimoRecurso;
+
 import exceptions.EmptyFieldException;
 import exceptions.MissingFieldException;
 import exceptions.UnexpectedFormatException;
 import exceptions.UnknownCardTypeException;
-import exceptions.UnknownSpellCardException;
+import exceptions.UnknownSpSrCardException;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -32,10 +45,12 @@ import java.util.Scanner;
 public class Deck {
 
 	private static ArrayList<Card> monsters;
-	private static ArrayList<Card> spells;
+	private static ArrayList<Card> spsrs;
 
 	private static String monstersPath = "Database-Monsters.csv";
-	private static String spellsPath = "Database-Spells.csv";
+	
+	//SpSr is the name for Spells and Secrets
+	private static String spsrPath = "Database-SpSr.csv";
 
 	private final ArrayList<Card> deck;
 	int trials = 0;
@@ -43,7 +58,7 @@ public class Deck {
 	public Deck() throws IOException, NumberFormatException,
 			UnexpectedFormatException {
 
-		if ((monsters == null) || (spells == null)) {
+		if ((monsters == null) || (spsrs == null)) {
 
 			Scanner sc = new Scanner(System.in);
 
@@ -52,7 +67,7 @@ public class Deck {
 				try {
 
 					monsters = loadCardsFromFile(Deck.getMonstersPath());
-					spells = loadCardsFromFile(Deck.getSpellsPath());
+					spsrs = loadCardsFromFile(Deck.getSpSrPath());
 					break;
 
 				} catch (UnexpectedFormatException e) {
@@ -75,8 +90,8 @@ public class Deck {
 						Deck.setMonstersPath(sc.nextLine());
 					}
 					if (e.getSourceFile()
-							.equalsIgnoreCase(Deck.getSpellsPath())) {
-						Deck.setSpellsPath(sc.nextLine());
+							.equalsIgnoreCase(Deck.getSpSrPath())) {
+						Deck.setSpSrPath(sc.nextLine());
 					}
 
 				} catch (FileNotFoundException e) {
@@ -87,7 +102,7 @@ public class Deck {
 					}
 
 					String s = (monsters == null) ? Deck.getMonstersPath()
-							: Deck.getSpellsPath();
+							: Deck.getSpSrPath();
 
 					System.out.println("The file \"" + s + "\" is not found.");
 					System.out.println("Please enter another path:");
@@ -98,7 +113,7 @@ public class Deck {
 					if (monsters == null)
 						Deck.setMonstersPath(path);
 					else
-						Deck.setSpellsPath(path);
+						Deck.setSpSrPath(path);
 
 				}
 
@@ -109,7 +124,7 @@ public class Deck {
 		}
 
 		deck = new ArrayList<Card>();
-		buildDeck(monsters, spells);
+		buildDeck(monsters, spsrs);
 		shuffleDeck();
 
 	}
@@ -177,7 +192,7 @@ public class Deck {
 
 			} else {
 
-				if (!cardInfo[0].equalsIgnoreCase("Spell")) {
+				if (!cardInfo[0].equalsIgnoreCase("SpSr")) {
 
 					br.close();
 					throw new UnknownCardTypeException("Unknown Card type.",
@@ -217,8 +232,38 @@ public class Deck {
 				case "Raigeki":
 					temp.add(new Raigeki(cardInfo[1], cardInfo[2]));
 					break;
+				case "Baja Dano":
+					temp.add(new ArrepentimientoHechizo(cardInfo[1], cardInfo[2]));
+					break;
+				case "Bloqueo Hechizo":
+					temp.add(new BolaInfernalHechizo(cardInfo[1], cardInfo[2]));
+					break;
+				case "Bomba":
+					temp.add(new CurarHechizo(cardInfo[1], cardInfo[2]));
+					break;
+				case "Cementerio":
+					temp.add(new PoderDivinoHechizo(cardInfo[1], cardInfo[2]));
+					break;
+				case "Confusion":
+					temp.add(new PoderSupremoHechizo(cardInfo[1], cardInfo[2]));
+					break;
+				case "Doble Dano":
+					temp.add(new RobarHechizo(cardInfo[1], cardInfo[2]));
+					break;
+				case "Escudo":
+					temp.add(new RabiaHechizo(cardInfo[1], cardInfo[2]));
+					break;
+				case "Mas Vida":
+					temp.add(new MonsterReborn(cardInfo[1], cardInfo[2]));
+					break;
+				case "Terremoto":
+					temp.add(new RayoHechizo(cardInfo[1], cardInfo[2]));
+					break;
+				case "Ultimo Recurso":
+					temp.add(new Raigeki(cardInfo[1], cardInfo[2]));
+					break;
 				default:
-					throw new UnknownSpellCardException("Unknown Spell card",
+					throw new UnknownSpSrCardException("Unknown Spell and Secret card",
 							path, lineNumber, cardInfo[1]);
 
 				}
@@ -233,17 +278,16 @@ public class Deck {
 
 	}
 
-	private void buildDeck(ArrayList<Card> Monsters, ArrayList<Card> Spells) {
+	private void buildDeck(ArrayList<Card> Monsters, ArrayList<Card> SpSr) {
 
 		int monstersQouta = 16;
-		int spellsQouta = 3;
+		int spsrsQouta = 3;
 
 		Random r = new Random();
 
 		for (; monstersQouta > 0; monstersQouta--) {
 
-			MonsterCard monster = (MonsterCard) monsters.get(r.nextInt(monsters
-					.size()));
+			MonsterCard monster = (MonsterCard) monsters.get(r.nextInt(monsters.size()));
 
 			MonsterCard clone = new MonsterCard(monster.getName(), monster.getDescription(), monster.getLevel(),
 					monster.getAttackPoints(), monster.getDefensePoints());
@@ -255,103 +299,189 @@ public class Deck {
 
 		}
 
-		for (; spellsQouta > 0; spellsQouta--) {
+		for (; spsrsQouta > 0; spsrsQouta--) {
 
-			Card spell = spells.get(r.nextInt(spells.size()));
+			SpSrCard spsr = (SpSrCard) spsrs.get(r.nextInt(spsrs.size()));
+			
+			SpSrCard clone;
 
-			SpellCard clone;
+			if (spsr instanceof ArrepentimientoHechizo) {
 
-			if (spell instanceof ArrepentimientoHechizo) {
-
-				clone = new ArrepentimientoHechizo(spell.getName(),
-						spell.getDescription());
+				clone = new ArrepentimientoHechizo(spsr.getName(),spsr.getDescription());
 				clone.setLocation(Location.DECK);
 				deck.add(clone);
 				continue;
 
 			}
 
-			if (spell instanceof BolaInfernalHechizo) {
+			if (spsr instanceof BolaInfernalHechizo) {
 
-				clone = new BolaInfernalHechizo(spell.getName(),
-						spell.getDescription());
+				clone = new BolaInfernalHechizo(spsr.getName(),spsr.getDescription());
 				clone.setLocation(Location.DECK);
 				deck.add(clone);
 				continue;
 
 			}
 
-			if (spell instanceof CurarHechizo) {
+			if (spsr instanceof CurarHechizo) {
 
-				clone = new CurarHechizo(spell.getName(), spell.getDescription());
+				clone = new CurarHechizo(spsr.getName(), spsr.getDescription());
 				clone.setLocation(Location.DECK);
 				deck.add(clone);
 				continue;
 
 			}
 
-			if (spell instanceof PoderDivinoHechizo) {
+			if (spsr  instanceof PoderDivinoHechizo) {
 
-				clone = new PoderDivinoHechizo(spell.getName(), spell.getDescription());
+				clone = new PoderDivinoHechizo(spsr.getName(), spsr.getDescription());
 				clone.setLocation(Location.DECK);
 				deck.add(clone);
 				continue;
 
 			}
 
-			if (spell instanceof PoderSupremoHechizo) {
+			if (spsr instanceof PoderSupremoHechizo) {
 
-				clone = new PoderSupremoHechizo(spell.getName(), spell.getDescription());
+				clone = new PoderSupremoHechizo(spsr.getName(), spsr.getDescription());
 				clone.setLocation(Location.DECK);
 				deck.add(clone);
 				continue;
 
 			}
 
-			if (spell instanceof RobarHechizo) {
+			if (spsr instanceof RobarHechizo) {
 
-				clone = new RobarHechizo(spell.getName(), spell.getDescription());
+				clone = new RobarHechizo(spsr.getName(), spsr.getDescription());
 				clone.setLocation(Location.DECK);
 				deck.add(clone);
 				continue;
 
 			}
 
-			if (spell instanceof RabiaHechizo) {
+			if (spsr instanceof RabiaHechizo) {
 
-				clone = new RabiaHechizo(spell.getName(), spell.getDescription());
+				clone = new RabiaHechizo(spsr.getName(), spsr.getDescription());
 				clone.setLocation(Location.DECK);
 				deck.add(clone);
 				continue;
 
 			}
 
-			if (spell instanceof MonsterReborn) {
+			if (spsr instanceof MonsterReborn) {
 
-				clone = new MonsterReborn(spell.getName(),
-						spell.getDescription());
+				clone = new MonsterReborn(spsr.getName(), spsr.getDescription());
 				clone.setLocation(Location.DECK);
 				deck.add(clone);
 				continue;
 
 			}
 
-			if (spell instanceof RayoHechizo) {
+			if (spsr instanceof RayoHechizo) {
 
-				clone = new RayoHechizo(spell.getName(), spell.getDescription());
+				clone = new RayoHechizo(spsr.getName(), spsr.getDescription());
 				clone.setLocation(Location.DECK);
 				deck.add(clone);
 				continue;
 
 			}
 
-			if (spell instanceof Raigeki) {
+			if (spsr instanceof Raigeki) {
 
-				clone = new Raigeki(spell.getName(), spell.getDescription());
+				clone = new Raigeki(spsr.getName(), spsr.getDescription());
 				clone.setLocation(Location.DECK);
 				deck.add(clone);
 				continue;
 
+			}
+			
+			if (spsr instanceof BajaDano) {
+
+				clone = new BajaDano(spsr.getName(),spsr.getDescription());
+				clone.setLocation(Location.DECK);
+				deck.add(clone);
+				continue;
+
+			}
+
+			if (spsr instanceof BloqueoHechizo) {
+
+				clone = new BloqueoHechizo(spsr.getName(),spsr.getDescription());
+				clone.setLocation(Location.DECK);
+				deck.add(clone);
+				continue;
+
+			}
+
+			if (spsr instanceof Bomba) {
+
+				clone = new Bomba(spsr.getName(), spsr.getDescription());
+				clone.setLocation(Location.DECK);
+				deck.add(clone);
+				continue;
+
+			}
+
+			if (spsr  instanceof Cementerio) {
+
+				clone = new Cementerio(spsr.getName(), spsr.getDescription());
+				clone.setLocation(Location.DECK);
+				deck.add(clone);
+				continue;
+
+			}
+
+			if (spsr instanceof Confusion) {
+
+				clone = new Confusion(spsr.getName(), spsr.getDescription());
+				clone.setLocation(Location.DECK);
+				deck.add(clone);
+				continue;
+
+			}
+
+			if (spsr instanceof DobleDano) {
+
+				clone = new DobleDano(spsr.getName(), spsr.getDescription());
+				clone.setLocation(Location.DECK);
+				deck.add(clone);
+				continue;
+
+			}
+
+			if (spsr instanceof Escudo) {
+
+				clone = new Escudo(spsr.getName(), spsr.getDescription());
+				clone.setLocation(Location.DECK);
+				deck.add(clone);
+				continue;
+
+			}
+
+			if (spsr instanceof MasVida) {
+
+				clone = new MasVida(spsr.getName(), spsr.getDescription());
+				clone.setLocation(Location.DECK);
+				deck.add(clone);
+				continue;
+
+			}
+
+			if (spsr instanceof Terremoto) {
+
+				clone = new Terremoto(spsr.getName(), spsr.getDescription());
+				clone.setLocation(Location.DECK);
+				deck.add(clone);
+				continue;
+
+			}
+
+			if (spsr instanceof UltimoRecurso) {
+
+				clone = new UltimoRecurso(spsr.getName(), spsr.getDescription());
+				clone.setLocation(Location.DECK);
+				deck.add(clone);
+				continue;
 			}
 
 		}
@@ -389,12 +519,12 @@ public class Deck {
 		Deck.monsters = monsters;
 	}
 
-	public static ArrayList<Card> getSpells() {
-		return spells;
+	public static ArrayList<Card> getSpSr() {
+		return spsrs;
 	}
 
-	public static void setSpells(ArrayList<Card> spells) {
-		Deck.spells = spells;
+	public static void setSpSr(ArrayList<Card> spsrs) {
+		Deck.spsrs = spsrs;
 	}
 
 	public ArrayList<Card> getDeck() {
@@ -409,12 +539,12 @@ public class Deck {
 		Deck.monstersPath = monstersPath;
 	}
 
-	public static String getSpellsPath() {
-		return spellsPath;
+	public static String getSpSrPath() {
+		return spsrPath;
 	}
 
-	public static void setSpellsPath(String spellsPath) {
-		Deck.spellsPath = spellsPath;
+	public static void setSpSrPath(String spsrPath) {
+		Deck.spsrPath = spsrPath;
 	}
 
 }
