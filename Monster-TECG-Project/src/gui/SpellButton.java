@@ -2,28 +2,38 @@ package gui;
 
 import javax.swing.JButton;
 
-import cards.spells.SpellCard;
+import cards.spsr.SpSrCard;
 
-public class SpellButton extends JButton {
-private SpellCard spell;
-	public SpellCard getSpell() {
-	return spell;
-}
-public void setSpell(SpellCard spell) {
-	this.spell = spell;
-}
-	public SpellButton() {
-		super();
-		this.setVisible(true);
+public class SpSrButton extends JButton {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private SpSrCard spsr;
+		public SpSrCard getSpSr() {
+		return spsr;
+	}
 		
+	public void setSpSr(SpSrCard spsr) {
+		this.spsr = spsr;
 	}
-	public SpellButton(SpellCard spell){
-		this.setVisible(true);
-		this.setName(spell.getName());
-		this.setOpaque(false);
+	
+	public SpSrButton() {
+			super();
+			this.setVisible(true);
+			
 	}
-	public SpellButton(String name){
-		
-		super(name);
+	
+	public SpSrButton(SpSrCard spsr){
+			this.setVisible(true);
+			this.setName(spsr.getName());
+			this.setOpaque(false);
+	}
+	
+	public SpSrButton(String name){
+			
+			super(name);
 	}
 }
+
