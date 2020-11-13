@@ -3,7 +3,7 @@ package board.player;
 import java.util.ArrayList;
 
 import cards.MonsterCard;
-import cards.spells.SpellCard;
+import cards.spsr.SpSrCard;
 
 public interface Duelist {
 
@@ -15,9 +15,9 @@ public interface Duelist {
 
 	public boolean setMonster(MonsterCard monster, ArrayList<MonsterCard> sacrifices);
 	 
-	public boolean setSpell(SpellCard spell);
+	public boolean setSpSr(SpSrCard spsr);
 	 
-	public boolean activateSpell(SpellCard spell, MonsterCard monster);
+	public boolean activateSpSr(SpSrCard spsr, MonsterCard monster);
 
 	public boolean declareAttack(MonsterCard monster);
 	 
