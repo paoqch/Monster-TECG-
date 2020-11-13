@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import cards.Card;
 import cards.Mode;
 import cards.MonsterCard;
-import cards.spells.SpellCard;
+import cards.spsr.SpSrCard;
 import exceptions.MultipleMonsterAdditionException;
 import exceptions.UnexpectedFormatException;
 
@@ -125,7 +125,7 @@ public class Player implements Duelist {
 	}
 
 	@Override
-	public boolean setSpell(SpellCard spell) {
+	public boolean setSpSr(SpSrCard spsr) {
 
 		if (Card.getBoard().isGameOver())
 			return false;
@@ -133,14 +133,14 @@ public class Player implements Duelist {
 		if (this != Card.getBoard().getActivePlayer())
 			return false;
 
-		boolean spellAdded = this.field.addSpellToField(spell, null, true);
+		boolean spsrAdded = this.field.addSpSrToField(spsr, null, true);
 
-		return spellAdded;
+		return spsrAdded;
 
 	}
 
 	@Override
-	public boolean activateSpell(SpellCard spell, MonsterCard monster) {
+	public boolean activateSpSr(SpSrCard spsr, MonsterCard monster) {
 
 		if (Card.getBoard().isGameOver())
 			return false;
@@ -148,14 +148,14 @@ public class Player implements Duelist {
 		if (this != Card.getBoard().getActivePlayer())
 			return false;
 
-		boolean spellActivated;
+		boolean spsrActivated;
 
-		if (this.field.getSpellArea().contains(spell))
-			spellActivated = this.field.activateSetSpell(spell, monster);
+		if (this.field.getSpSrArea().contains(spsr))
+			spsrActivated = this.field.activateSetSpSr(spsr, monster);
 		else
-			spellActivated = this.field.addSpellToField(spell, monster, false);
+			spsrActivated = this.field.addSpSrToField(spsr, monster, false);
 
-		return spellActivated;
+		return spsrActivated;
 
 	}
 
@@ -175,8 +175,7 @@ public class Player implements Duelist {
 	}
 
 	@Override
-	public boolean declareAttack(MonsterCard activeMonster,
-			MonsterCard opponentMonster) {
+	public boolean declareAttack(MonsterCard activeMonster, MonsterCard opponentMonster) {
 
 		if (Card.getBoard().isGameOver())
 			return false;
@@ -184,8 +183,7 @@ public class Player implements Duelist {
 		if (this != Card.getBoard().getActivePlayer())
 			return false;
 
-		boolean monsterAttacked = this.field.declareAttack(activeMonster,
-				opponentMonster);
+		boolean monsterAttacked = this.field.declareAttack(activeMonster, opponentMonster);
 
 		return monsterAttacked;
 
