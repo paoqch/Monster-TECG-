@@ -13,32 +13,19 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import board.Board;
 import board.player.Phase;
 import cards.Card;
 import cards.Location;
-import cards.Mode;
 import cards.MonsterCard;
-import cards.spells.ArrepentimientoHechizo;
-import cards.spells.BolaInfernalHechizo;
-import cards.spells.CurarHechizo;
-import cards.spells.PoderDivinoHechizo;
-import cards.spells.PoderSupremoHechizo;
-import cards.spells.RobarHechizo;
-import cards.spells.RabiaHechizo;
-import cards.spells.MonsterReborn;
-import cards.spells.RayoHechizo;
-import cards.spells.Raigeki;
-import cards.spells.SpellCard;
+import cards.spsr.SpSrCard;
 import exceptions.DefenseMonsterAttackException;
 import exceptions.MonsterMultipleAttackException;
 import exceptions.MultipleMonsterAdditionException;
 import exceptions.NoMonsterSpaceException;
 import exceptions.UnexpectedFormatException;
-import exceptions.UnknownSpellCardException;
 import exceptions.WrongPhaseException;
 import gui.CardButton;
 import gui.EndTurnBut;
@@ -48,8 +35,8 @@ import gui.HiddenHandPanel;
 import gui.MonsterButton;
 import gui.MonstersPanel;
 import gui.NextPhBut;
-import gui.SpellButton;
-import gui.SpellsPanel;
+import gui.SpSrButton;
+import gui.SpSrPanel;
 
 public class Controller implements ActionListener,MouseListener {
 
@@ -71,12 +58,12 @@ public class Controller implements ActionListener,MouseListener {
 	public void addActionListeners(){
 		ArrayList<MonsterButton> handp1 = this.gui.getHandp1().getMonsterbuttons();
 		ArrayList<MonsterButton> handp2 = this.gui.getHandp2().getMonsterbuttons();
-		ArrayList<SpellButton> handp1spells = this.gui.getHandp1().getSpellbuttons();
-		ArrayList<SpellButton> handp2spells = this.gui.getHandp2().getSpellbuttons();
+		ArrayList<SpSrButton> handp1spsr = this.gui.getHandp1().getSpSrbuttons();
+		ArrayList<SpSrButton> handp2spsr = this.gui.getHandp2().getSpSrbuttons();
 		ArrayList<MonsterButton> monstersp1 = this.gui.getMonsterareap1().getMonsters();
-		ArrayList<JButton> spellsp1 = this.gui.getSpellAreap1().getSpells();
+		ArrayList<JButton> spsrp1 = this.gui.getSpSrAreap1().getSpSr();
 		ArrayList<MonsterButton> monstersp2 = this.gui.getMonsterAreap2().getMonsters();
-		ArrayList<JButton> spellsp2 = this.gui.getSpellAreap2().getSpells();
+		ArrayList<JButton> spsrp2 = this.gui.getSpSrAreap2().getSpSr();
 		ArrayList<CardButton> hidp1 = this.gui.getP1hid().getHandButtons();
 		ArrayList<CardButton> hidp2 = this.gui.getP2hid().getHandButtons();
 
@@ -101,29 +88,29 @@ public class Controller implements ActionListener,MouseListener {
 			handp2.get(i).addActionListener(this);
 			handp2.get(i).addMouseListener(this);
 		}
-		for (int i = 0; i < handp1spells.size(); i++) {
-			handp1spells.get(i).addActionListener(this);
-			handp1spells.get(i).addMouseListener(this);
+		for (int i = 0; i < handp1spsr.size(); i++) {
+			handp1spsr.get(i).addActionListener(this);
+			handp1spsr.get(i).addMouseListener(this);
 		}
-		for (int i = 0; i < handp2spells.size(); i++) {
-			handp2spells.get(i).addActionListener(this);
-			handp2spells.get(i).addMouseListener(this);
+		for (int i = 0; i < handp2spsr.size(); i++) {
+			handp2spsr.get(i).addActionListener(this);
+			handp2spsr.get(i).addMouseListener(this);
 		}
 		for (int i = 0; i < monstersp1.size(); i++) {
 			monstersp1.get(i).addActionListener(this);
 			monstersp1.get(i).addMouseListener(this);
 		}
-		for (int i = 0; i < spellsp1.size(); i++) {
-			spellsp1.get(i).addActionListener(this);
-			spellsp1.get(i).addMouseListener(this);
+		for (int i = 0; i < spsrp1.size(); i++) {
+			spsrp1.get(i).addActionListener(this);
+			spsrp1.get(i).addMouseListener(this);
 		}
 		for (int i = 0; i < monstersp2.size(); i++) {
 			monstersp2.get(i).addActionListener(this);
 			monstersp2.get(i).addMouseListener(this);
 		}
-		for (int i = 0; i < spellsp2.size(); i++) {
-			spellsp2.get(i).addActionListener(this);
-			spellsp2.get(i).addMouseListener(this);
+		for (int i = 0; i < spsrp2.size(); i++) {
+			spsrp2.get(i).addActionListener(this);
+			spsrp2.get(i).addMouseListener(this);
 		}
 
 	}
@@ -176,7 +163,7 @@ public class Controller implements ActionListener,MouseListener {
 			JScrollPane sp1 = new JScrollPane(gui.getP1hid());
 			sp1.setBorder(null);
 			sp1.getViewport().setOpaque(false);
-			 sp1.setPreferredSize(new Dimension(500,150));
+			sp1.setPreferredSize(new Dimension(500,150));
 			sp1.setOpaque(false);
 			sp1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			sp1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -194,7 +181,7 @@ public class Controller implements ActionListener,MouseListener {
 			JScrollPane sp2 = new JScrollPane(gui.getHandp2());
 			sp2.setBorder(null);
 			sp2.getViewport().setOpaque(false);
-			 sp2.setPreferredSize(new Dimension(500,150));
+			sp2.setPreferredSize(new Dimension(500,150));
 			sp2.setOpaque(false);
 			sp2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			sp2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -229,22 +216,22 @@ public class Controller implements ActionListener,MouseListener {
 
 
 
-		gui.getPanel1().remove(gui.getSpellAreap1());
-		gui.setSpellAreap1(new SpellsPanel(gui.getP1()));
-		gui.getPanel1().add(gui.getSpellAreap1(),BorderLayout.CENTER);
+		gui.getPanel1().remove(gui.getSpSrAreap1());
+		gui.setSpSrAreap1(new SpSrPanel(gui.getP1()));
+		gui.getPanel1().add(gui.getSpSrAreap1(),BorderLayout.CENTER);
 
 
 
-		gui.getPanel2().remove(gui.getSpellAreap2());
-		gui.setSpellAreap2(new SpellsPanel(gui.getP2()));
-		gui.getPanel2().add(gui.getSpellAreap2(),BorderLayout.CENTER);
+		gui.getPanel2().remove(gui.getSpSrAreap2());
+		gui.setSpSrAreap2(new SpSrPanel(gui.getP2()));
+		gui.getPanel2().add(gui.getSpSrAreap2(),BorderLayout.CENTER);
 
 		if(gui.getP1().getField().getGraveyard().size()>0){
 			String url;
 			if(gui.getP1().getField().getGraveyard().get(gui.getP1().getField().getGraveyard().size()-1) instanceof MonsterCard){
 				url = "Cards Images Database/Monsters/"+gui.getP1().getField().getGraveyard().get(gui.getP1().getField().getGraveyard().size()-1).getName()+".png";
 			}else{
-				url = "Cards Images Database/Spells/"+gui.getP1().getField().getGraveyard().get(gui.getP1().getField().getGraveyard().size()-1).getName()+".png";
+				url = "Cards Images Database/SpSr/"+gui.getP1().getField().getGraveyard().get(gui.getP1().getField().getGraveyard().size()-1).getName()+".png";
 			}
 			ImageIcon img = new ImageIcon(url);
 			Image img2 = img.getImage();
@@ -258,7 +245,7 @@ public class Controller implements ActionListener,MouseListener {
 			if(gui.getP2().getField().getGraveyard().get(gui.getP2().getField().getGraveyard().size()-1) instanceof MonsterCard){
 				url = "Cards Images Database/Monsters/"+gui.getP2().getField().getGraveyard().get(gui.getP2().getField().getGraveyard().size()-1).getName()+".png";
 			}else{
-				url = "Cards Images Database/Spells/"+gui.getP2().getField().getGraveyard().get(gui.getP2().getField().getGraveyard().size()-1).getName()+".png";
+				url = "Cards Images Database/SpSr/"+gui.getP2().getField().getGraveyard().get(gui.getP2().getField().getGraveyard().size()-1).getName()+".png";
 			}
 			ImageIcon img = new ImageIcon(url);
 			Image img2 = img.getImage();
@@ -298,11 +285,11 @@ public class Controller implements ActionListener,MouseListener {
 				gui.revalidate();
 			}
 		}
-		if(e.getSource() instanceof SpellButton){
-			SpellButton b = (SpellButton) e.getSource();
-			SpellCard c = b.getSpell();
+		if(e.getSource() instanceof SpSrButton){
+			SpSrButton b = (SpSrButton) e.getSource();
+			SpSrCard c = b.getSpSr();
 			if(c!=null){
-				String url = "Cards Images Database/Spells/"+c.getName()+".png";
+				String url = "Cards Images Database/SpSr/"+c.getName()+".png";
 
 				ImageIcon img = new ImageIcon(url);
 				gui.getDescription().setIcon(img);
@@ -391,8 +378,8 @@ public class Controller implements ActionListener,MouseListener {
 									//updatefield();
 									return;
 								}
-								Object[] options2 = {"OK","Cancel"};
-								int y = JOptionPane.showOptionDialog(gui, "Choose one sacrifice",null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,options2, options2[1]);
+								Object[] options4 = {"OK","Cancel"};
+								int y = JOptionPane.showOptionDialog(gui, "Choose one sacrifice",null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,options4, options4[1]);
 								if(y==0){
 									fc = (MonsterButton) arg0.getSource();
 									//JOptionPane.showMessageDialog(gui, "nnnnjjs");
@@ -414,8 +401,8 @@ public class Controller implements ActionListener,MouseListener {
 									updatefield();
 									return;
 								}
-								Object[] options2 = {"OK","Cancel"};
-								int y = JOptionPane.showOptionDialog(gui, "Choose the first sacrifice",null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,options2, options2[1]);
+								Object[] options4 = {"OK","Cancel"};
+								int y = JOptionPane.showOptionDialog(gui, "Choose the first sacrifice",null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,options4, options4[1]);
 								if(y==0){
 									//updatefield();
 									return;
@@ -433,8 +420,8 @@ public class Controller implements ActionListener,MouseListener {
 
 					}else{
 						if(board.getActivePlayer().getField().getPhase()!=Phase.BATTLE){
-							Object[] options2 = {"OK","Cancel"};
-							int y = JOptionPane.showOptionDialog(gui, "Change Monster's Mode ?",null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,options2, options2[1]);
+							Object[] options4 = {"OK","Cancel"};
+							int y = JOptionPane.showOptionDialog(gui, "Change Monster's Mode ?",null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,options4, options4[1]);
 							if(y==0){
 								board.getActivePlayer().switchMonsterMode(monster);
 								updatefield();
@@ -445,8 +432,8 @@ public class Controller implements ActionListener,MouseListener {
 						}else{
 							fc = (MonsterButton)arg0.getSource();
 							monster = ((MonsterButton) fc).getMonster();
-							Object[] options2 = {"OK","Cancel"};
-							int y = JOptionPane.showOptionDialog(gui, "Attack ?",null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,options2, options2[1]);
+							Object[] options4 = {"OK","Cancel"};
+							int y = JOptionPane.showOptionDialog(gui, "Attack ?",null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,options4, options4[1]);
 							if(y==1){
 								fc=null;
 								sc=null;
@@ -510,8 +497,8 @@ public class Controller implements ActionListener,MouseListener {
 									MonsterButton button = (MonsterButton) arg0.getSource();
 									MonsterCard card = button.getMonster();
 									sc = button;
-									Object[] options2 = {"OK","Cancel"};
-									int y = JOptionPane.showOptionDialog(gui, "Choose the second sacrifice",null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,options2, options2[1]);
+									Object[] options4 = {"OK","Cancel"};
+									int y = JOptionPane.showOptionDialog(gui, "Choose the second sacrifice",null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,options4, options4[1]);
 									if(y==0){
 										//updatefield();
 										return;
@@ -538,7 +525,7 @@ public class Controller implements ActionListener,MouseListener {
 						else{//fc is a spellbutton
 							MonsterCard monster = ((MonsterButton)arg0.getSource()).getMonster();
 							
-							if(((SpellButton)fc).getSpell().getName().equalsIgnoreCase("Bola Infernal Hechizo")){
+							if(((SpSrButton)fc).getSpSr().getName().equalsIgnoreCase("Bola Infernal Hechizo")){
 								if(!board.getOpponentPlayer().getField().getMonstersArea().contains(monster)){
 									JOptionPane.showMessageDialog(gui, "You must choose monster cards from your opponent's field");
 									fc=null;
@@ -547,7 +534,7 @@ public class Controller implements ActionListener,MouseListener {
 								}
 								sc = (MonsterButton)arg0.getSource();
 								MonsterCard mons = ((MonsterButton)sc).getMonster();
-								board.getActivePlayer().activateSpell(((SpellButton)fc).getSpell(), ((MonsterButton)sc).getMonster());
+								board.getActivePlayer().activateSpSr(((SpSrButton)fc).getSpSr(), ((MonsterButton)sc).getMonster());
 								fc=null;
 								sc=null;
 								updatefield();
@@ -562,7 +549,7 @@ public class Controller implements ActionListener,MouseListener {
 								}
 								sc = (MonsterButton)arg0.getSource();
 								MonsterCard mons = ((MonsterButton)sc).getMonster();
-								board.getActivePlayer().activateSpell(((SpellButton)fc).getSpell(), ((MonsterButton)sc).getMonster());
+								board.getActivePlayer().activateSpSr(((SpSrButton)fc).getSpSr(), ((MonsterButton)sc).getMonster());
 								fc=null;
 								sc=null;
 								updatefield();
@@ -644,14 +631,14 @@ public class Controller implements ActionListener,MouseListener {
 
 		}
 
-		if(arg0.getSource() instanceof SpellButton){
+		if(arg0.getSource() instanceof SpSrButton){
 			if(fc instanceof MonsterButton){
 				fc = null;
 				sc=null;
 				JOptionPane.showMessageDialog(gui, "you must sacrifice a monster card");
 				return;
 			}
-			if(fc!=null &&((SpellButton)fc).getName().equalsIgnoreCase("Bola Infernal Hechizo")){
+			if(fc!=null &&((SpSrButton)fc).getName().equalsIgnoreCase("Bola Infernal Hechizo")){
 				JOptionPane.showMessageDialog(gui, "you must choose a monster card");
 				fc = null;
 				sc=null;
@@ -659,18 +646,18 @@ public class Controller implements ActionListener,MouseListener {
 			}
 
 			if(fc==null){
-				if(board.getActivePlayer().getField().getSpellArea().contains(((SpellButton)arg0.getSource()).getSpell())
-						|| board.getActivePlayer().getField().getHand().contains(((SpellButton)arg0.getSource()).getSpell())){
-					if(((SpellButton)arg0.getSource()).getSpell().getLocation()==Location.HAND){
+				if(board.getActivePlayer().getField().getSpSrArea().contains(((SpSrButton)arg0.getSource()).getSpSr())
+						|| board.getActivePlayer().getField().getHand().contains(((SpSrButton)arg0.getSource()).getSpSr())){
+					if(((SpSrButton)arg0.getSource()).getSpSr().getLocation()==Location.HAND){
 						String[] buttons = { "Activate", "Set", "cancel"};
 
-						int rc = JOptionPane.showOptionDialog(null, "Activate or set spell ?", "SpellCard",
+						int rc = JOptionPane.showOptionDialog(null, "Activate or set card?", "Spell or Secret Card",
 								JOptionPane.WARNING_MESSAGE, 0, null, buttons, buttons[2]);
-						SpellButton button = (SpellButton) arg0.getSource();
-						SpellCard card = button.getSpell();
+						SpSrButton button = (SpSrButton) arg0.getSource();
+						SpSrCard card = button.getSpSr();
 						fc=button;
 						if(rc==1){
-							Card.getBoard().getActivePlayer().setSpell(card);
+							Card.getBoard().getActivePlayer().setSpSr(card);
 							fc=null;
 							updatefield();
 							return;
@@ -684,7 +671,7 @@ public class Controller implements ActionListener,MouseListener {
 							switch (card.getName()) {
 
 							case "Arrepentimiento Hechizo":
-								board.getActivePlayer().activateSpell(card, null);
+								board.getActivePlayer().activateSpSr(card, null);
 								updatefield();
 								fc = null;
 								return;
@@ -700,22 +687,22 @@ public class Controller implements ActionListener,MouseListener {
 								fc=null;
 								return;
 							case "Curar Hechizo":
-								board.getActivePlayer().activateSpell(card, null);
+								board.getActivePlayer().activateSpSr(card, null);
 								updatefield();
 								fc = null;
 								return;
 							case "Poder Divino Hechizo":
-								board.getActivePlayer().activateSpell(card, null);
+								board.getActivePlayer().activateSpSr(card, null);
 								updatefield();
 								fc = null;
 								return;
 							case "Poder Supremo Hechizo":
-								board.getActivePlayer().activateSpell(card, null);
+								board.getActivePlayer().activateSpSr(card, null);
 								updatefield();
 								fc = null;
 								return;
 							case "Robar Hechizo":
-								board.getActivePlayer().activateSpell(card, null);
+								board.getActivePlayer().activateSpSr(card, null);
 								updatefield();
 								fc = null;
 								return;
@@ -731,22 +718,86 @@ public class Controller implements ActionListener,MouseListener {
 								fc=null;
 								return;
 							case "Monster Reborn":
-								board.getActivePlayer().activateSpell(card, null);
+								board.getActivePlayer().activateSpSr(card, null);
 								updatefield();
 								fc = null;
 								return;
 							case "Rayo Hechizo":
-								board.getActivePlayer().activateSpell(card, null);
+								board.getActivePlayer().activateSpSr(card, null);
 								updatefield();
 								fc = null;
 								return;
 							case "Raigeki":
-								board.getActivePlayer().activateSpell(card, null);
+								board.getActivePlayer().activateSpSr(card, null);
+								updatefield();
+								fc = null;
+								return;
+								
+							case "Baja Dano":
+								board.getActivePlayer().activateSpSr(card, null);
+								updatefield();
+								fc = null;
+								return;
+								
+							case "Bloqueo Hechizo":
+								String[] options2 = { "ok", "cancel"};
+
+								int x2 = JOptionPane.showOptionDialog(null, "Choose the monster you wish to control", "SpellCard",
+										JOptionPane.WARNING_MESSAGE, 0, null, options2, options2[1]);
+								if(x2==0){
+									fc = button;
+									return;
+								}
+								fc=null;
+								return;
+							case "Bomba":
+								board.getActivePlayer().activateSpSr(card, null);
+								updatefield();
+								fc = null;
+								return;
+							case "Cementerio":
+								board.getActivePlayer().activateSpSr(card, null);
+								updatefield();
+								fc = null;
+								return;
+							case "Confusion":
+								board.getActivePlayer().activateSpSr(card, null);
+								updatefield();
+								fc = null;
+								return;
+							case "Doble Dano":
+								board.getActivePlayer().activateSpSr(card, null);
+								updatefield();
+								fc = null;
+								return;
+							case "Escudo":
+								String[] options3 = { "ok", "cancel"};
+
+								int x3 = JOptionPane.showOptionDialog(null, "Choose the monster you wish to enhance", "SpellCard",
+										JOptionPane.WARNING_MESSAGE, 0, null, options3, options3[1]);
+								if(x3==0){
+									fc = button;
+									return;
+								}
+								fc=null;
+								return;
+							case "Mas Vida":
+								board.getActivePlayer().activateSpSr(card, null);
+								updatefield();
+								fc = null;
+								return;
+							case "Terremoto":
+								board.getActivePlayer().activateSpSr(card, null);
+								updatefield();
+								fc = null;
+								return;
+							case "Ultimo Recurso":
+								board.getActivePlayer().activateSpSr(card, null);
 								updatefield();
 								fc = null;
 								return;
 							default:
-								board.getActivePlayer().activateSpell(((SpellButton)fc).getSpell(), null);
+								board.getActivePlayer().activateSpSr(((SpSrButton)fc).getSpSr(), null);
 								updatefield();
 
 							}
@@ -755,13 +806,13 @@ public class Controller implements ActionListener,MouseListener {
 					else{
 						String[] buttons = { "ok", "cancel"};
 
-						int rc = JOptionPane.showOptionDialog(null, "Activate spell card ?", "SpellCard",
+						int rc = JOptionPane.showOptionDialog(null, "Activate card ?", "Spell or Secret Card",
 								JOptionPane.WARNING_MESSAGE, 0, null, buttons, buttons[1]);
-						SpellButton button = (SpellButton) arg0.getSource();
-						SpellCard card = button.getSpell();
+						SpSrButton button = (SpSrButton) arg0.getSource();
+						SpSrCard card = button.getSpSr();
 						fc=button;
 						if(rc==1){
-							Card.getBoard().getActivePlayer().setSpell(card);
+							Card.getBoard().getActivePlayer().setSpSr(card);
 							fc=null;
 							updatefield();
 							return;
@@ -770,14 +821,14 @@ public class Controller implements ActionListener,MouseListener {
 							switch (card.getName()) {
 
 							case "Arrepentimiento Hechizo":
-								board.getActivePlayer().activateSpell(card, null);
+								board.getActivePlayer().activateSpSr(card, null);
 								updatefield();
 								fc = null;
 								return;
 							case "Bola Infernal Hechizo":
 								String[] options = { "ok", "cancel"};
 
-								int x = JOptionPane.showOptionDialog(null, "Choose the monster you wish to control", "SpellCard",
+								int x = JOptionPane.showOptionDialog(null, "Choose the monster you wish to control", "Spell or Secret Card",
 										JOptionPane.WARNING_MESSAGE, 0, null, options, options[1]);
 								if(x==0){
 									fc = button;
@@ -786,29 +837,29 @@ public class Controller implements ActionListener,MouseListener {
 								fc=null;
 								return;
 							case "Curar Hechizo":
-								board.getActivePlayer().activateSpell(card, null);
+								board.getActivePlayer().activateSpSr(card, null);
 								updatefield();
 								fc = null;
 								return;
 							case "Poder Divino Hechizo":
-								board.getActivePlayer().activateSpell(card, null);
+								board.getActivePlayer().activateSpSr(card, null);
 								updatefield();
 								fc = null;
 								return;
 							case "Poder Supremo Hechizo":
-								board.getActivePlayer().activateSpell(card, null);
+								board.getActivePlayer().activateSpSr(card, null);
 								updatefield();
 								fc = null;
 								return;
 							case "Robar Hechizo":
-								board.getActivePlayer().activateSpell(card, null);
+								board.getActivePlayer().activateSpSr(card, null);
 								updatefield();
 								fc = null;
 								return;
 							case "Rabia Hechizo":
 								String[] options1 = { "ok", "cancel"};
 
-								int x1 = JOptionPane.showOptionDialog(null, "Choose the monster you wish to enhance", "SpellCard",
+								int x1 = JOptionPane.showOptionDialog(null, "Choose the monster you wish to enhance", "Spell or Secret Card",
 										JOptionPane.WARNING_MESSAGE, 0, null, options1, options1[1]);
 								if(x1==0){
 									fc = button;
@@ -817,22 +868,85 @@ public class Controller implements ActionListener,MouseListener {
 								fc=null;
 								return;
 							case "Monster Reborn":
-								board.getActivePlayer().activateSpell(card, null);
+								board.getActivePlayer().activateSpSr(card, null);
 								updatefield();
 								fc = null;
 								return;
 							case "Rayo Hechizo":
-								board.getActivePlayer().activateSpell(card, null);
+								board.getActivePlayer().activateSpSr(card, null);
 								updatefield();
 								fc = null;
 								return;
 							case "Raigeki":
-								board.getActivePlayer().activateSpell(card, null);
+								board.getActivePlayer().activateSpSr(card, null);
+								updatefield();
+								fc = null;
+								return;
+								
+							case "Baja Dano":
+								board.getActivePlayer().activateSpSr(card, null);
+								updatefield();
+								fc = null;
+								return;
+							case "Bloqueo Hechizo":
+								String[] options2 = { "ok", "cancel"};
+
+								int x2 = JOptionPane.showOptionDialog(null, "Choose the monster you wish to control", "Spell or Secret Card",
+										JOptionPane.WARNING_MESSAGE, 0, null, options2, options2[1]);
+								if(x2==0){
+									fc = button;
+									return;
+								}
+								fc=null;
+								return;
+							case "Bomba":
+								board.getActivePlayer().activateSpSr(card, null);
+								updatefield();
+								fc = null;
+								return;
+							case "Cementerio":
+								board.getActivePlayer().activateSpSr(card, null);
+								updatefield();
+								fc = null;
+								return;
+							case "Confusion":
+								board.getActivePlayer().activateSpSr(card, null);
+								updatefield();
+								fc = null;
+								return;
+							case "Doble Dano":
+								board.getActivePlayer().activateSpSr(card, null);
+								updatefield();
+								fc = null;
+								return;
+							case "Escudo":
+								String[] options3 = { "ok", "cancel"};
+
+								int x3 = JOptionPane.showOptionDialog(null, "Choose the monster you wish to enhance", "Spell or Secret Card",
+										JOptionPane.WARNING_MESSAGE, 0, null, options3, options3[1]);
+								if(x3==0){
+									fc = button;
+									return;
+								}
+								fc=null;
+								return;
+							case "Mas Vida":
+								board.getActivePlayer().activateSpSr(card, null);
+								updatefield();
+								fc = null;
+								return;
+							case "Terremoto":
+								board.getActivePlayer().activateSpSr(card, null);
+								updatefield();
+								fc = null;
+								return;
+							case "Ultimo Recurso":
+								board.getActivePlayer().activateSpSr(card, null);
 								updatefield();
 								fc = null;
 								return;
 							default:
-								board.getActivePlayer().activateSpell(((SpellButton)fc).getSpell(), null);
+								board.getActivePlayer().activateSpSr(((SpSrButton)fc).getSpSr(), null);
 								updatefield();
 
 							}
