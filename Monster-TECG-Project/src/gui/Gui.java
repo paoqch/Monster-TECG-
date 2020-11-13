@@ -5,29 +5,18 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
@@ -41,10 +30,10 @@ public class Gui extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel panel2 ;
-	private SpellsPanel spellAreap1;
+	private SpSrPanel spsrAreap1;
 	private MonstersPanel monsterareap1;
 	private MonstersPanel monsterAreap2;
-	private SpellsPanel spellAreap2;
+	private SpSrPanel spsrAreap2;
 	public JLabel deckp1;
 	public JLabel deckp2;
 	public JLabel lifep1;
@@ -125,12 +114,12 @@ public class Gui extends JFrame {
 		this.panel2 = panel2;
 	}
 
-	public SpellsPanel getSpellAreap1() {
-		return spellAreap1;
+	public SpSrPanel getSpSrAreap1() {
+		return spsrAreap1;
 	}
 
-	public void setSpellAreap1(SpellsPanel spellAreap1) {
-		this.spellAreap1 = spellAreap1;
+	public void setSpSrAreap1(SpSrPanel spsrAreap1) {
+		this.spsrAreap1 = spsrAreap1;
 	}
 
 	public MonstersPanel getMonsterareap1() {
@@ -149,12 +138,12 @@ public class Gui extends JFrame {
 		this.monsterAreap2 = monsterAreap2;
 	}
 
-	public SpellsPanel getSpellAreap2() {
-		return spellAreap2;
+	public SpSrPanel getSpSrAreap2() {
+		return spsrAreap2;
 	}
 
-	public void setSpellAreap2(SpellsPanel spellAreap2) {
-		this.spellAreap2 = spellAreap2;
+	public void setSpSrAreap2(SpSrPanel spsrAreap2) {
+		this.spsrAreap2 = spsrAreap2;
 	}
 
 	public JLabel getDeckp1() {
@@ -289,7 +278,12 @@ public class Gui extends JFrame {
 		try {
 		    final Image backgroundImage = javax.imageio.ImageIO.read(new File("bg2.png"));
 		    setContentPane(new JPanel(new BorderLayout()) {
-		        @Override public void paintComponent(Graphics g) {
+		        /**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				@Override public void paintComponent(Graphics g) {
 		            g.drawImage(backgroundImage, 0, 0, null);
 		        }
 		    });
@@ -305,8 +299,8 @@ public class Gui extends JFrame {
 		
 		monsterareap1=new MonstersPanel(p1);
 		monsterAreap2 = new MonstersPanel(p2);
-		spellAreap1= new SpellsPanel(p1);
-		spellAreap2 = new SpellsPanel(p2);
+		spsrAreap1= new SpSrPanel(p1);
+		spsrAreap2 = new SpSrPanel(p2);
 		monsterareap1= new MonstersPanel(p1);
 		monsterAreap2 = new MonstersPanel(p2);
 		nextphase = new NextPhBut("Next Phase");
@@ -355,7 +349,7 @@ public class Gui extends JFrame {
 		panel1 = new JPanel();
 		panel1.setLayout(new BorderLayout());
 		panel1.add(monsterareap1,BorderLayout.NORTH);
-		panel1.add(spellAreap1,BorderLayout.CENTER);
+		panel1.add(spsrAreap1,BorderLayout.CENTER);
 		panel1.setOpaque(false);
 		
 		
@@ -363,7 +357,7 @@ public class Gui extends JFrame {
 			sp1 = new JScrollPane(handp1);
 			sp1.setBorder(null);
 			sp1.getViewport().setOpaque(false);
-			 sp1.setPreferredSize(new Dimension(500,150));
+			sp1.setPreferredSize(new Dimension(500,150));
 			sp1.setOpaque(false);
 			sp1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			sp1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -386,7 +380,7 @@ public class Gui extends JFrame {
 		panel2 = new JPanel();
 		panel2.setLayout(new BorderLayout());
 		panel2.add(monsterAreap2,BorderLayout.SOUTH);
-		panel2.add(spellAreap2,BorderLayout.CENTER);
+		panel2.add(spsrAreap2,BorderLayout.CENTER);
 		panel2.setOpaque(false);
 		
 	
