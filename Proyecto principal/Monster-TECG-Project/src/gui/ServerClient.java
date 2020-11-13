@@ -12,9 +12,9 @@ import javax.swing.JFrame;
 import board.player.Player;
 import exceptions.UnexpectedFormatException;
 
-
+//Creacion de servidor y cliente
 public class ServerClient implements Runnable {
-
+	//Declaracion de variables
 	private String ip = "localhost";
 	private int port = 22222;
 	private Scanner scanner = new Scanner(System.in);
@@ -31,7 +31,7 @@ public class ServerClient implements Runnable {
 	
 	private String p1;
 	private String p2;
-
+	//Acceso al servidor y cliente con la ip y puerto
 	public ServerClient() throws IOException, UnexpectedFormatException {
 		System.out.println("Please input the IP: ");
 		ip = scanner.nextLine();
@@ -41,7 +41,7 @@ public class ServerClient implements Runnable {
 			System.out.println("The port you entered was invalid, please input another port: ");
 			port = scanner.nextInt();
 		}
-
+		//Apertura de juego al conectarse ambos
 		if (!connect()) initializeServer();
 			
 		Gui gui = new Gui(new Player(p1), new Player(p2));
@@ -49,7 +49,7 @@ public class ServerClient implements Runnable {
 		thread = new Thread(this, "MonsterTECG");
 		thread.start();
 	}
-
+	//Corrida de juego
 	public void run() {
 		while (true) {
 			if ( !accepted) {
@@ -57,7 +57,7 @@ public class ServerClient implements Runnable {
 			}
 		}
 	}
-
+	//EScucha de cliente para conectarse al servidor
 	private void listenForServerRequest() {
 		Socket socket = null;
 		try {
@@ -70,7 +70,7 @@ public class ServerClient implements Runnable {
 			e.printStackTrace();
 		}
 	}
-
+	//COnexion de cliente
 	private boolean connect() {
 		try {
 			socket = new Socket(ip, port);
@@ -84,7 +84,7 @@ public class ServerClient implements Runnable {
 		System.out.println("Successfully connected to the server.");
 		return true;
 	}
-
+	//Inicio de servidor
 	private void initializeServer() {
 		try {
 			serverSocket = new ServerSocket(port, 8, InetAddress.getByName(ip));
