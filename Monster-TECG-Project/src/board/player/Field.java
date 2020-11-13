@@ -4,11 +4,11 @@ import cards.Card;
 import cards.Location;
 import cards.Mode;
 import cards.MonsterCard;
-import cards.spells.SpellCard;
+import cards.spsr.SpSrCard;
 import exceptions.DefenseMonsterAttackException;
 import exceptions.MonsterMultipleAttackException;
 import exceptions.NoMonsterSpaceException;
-import exceptions.NoSpellSpaceException;
+import exceptions.NoSpSrSpaceException;
 import exceptions.UnexpectedFormatException;
 import exceptions.WrongPhaseException;
 
@@ -20,14 +20,14 @@ public class Field {
 	private Phase phase = Phase.MAIN1;
 	private final Deck deck;
 	private ArrayList<MonsterCard> monstersArea;
-	private ArrayList<SpellCard> spellArea;
+	private ArrayList<SpSrCard> spsrArea;
 	private ArrayList<Card> hand;
 	private ArrayList<Card> graveyard;
 
 	public Field() throws IOException, UnexpectedFormatException {
 
 		monstersArea = new ArrayList<MonsterCard>();
-		spellArea = new ArrayList<SpellCard>();
+		spsrArea = new ArrayList<SpSrCard>();
 		hand = new ArrayList<Card>();
 		graveyard = new ArrayList<Card>();
 		deck = new Deck();
@@ -55,8 +55,7 @@ public class Field {
 
 	}
 
-	public boolean addMonsterToField(MonsterCard monster, Mode m,
-			ArrayList<MonsterCard> sacrifices) {
+	public boolean addMonsterToField(MonsterCard monster, Mode m, ArrayList<MonsterCard> sacrifices) {
 
 		if (!(hand.contains(monster) && monster.getLocation() == Location.HAND))
 			return false;
@@ -105,65 +104,64 @@ public class Field {
 
 	}
 
-	public boolean addSpellToField(SpellCard spell, MonsterCard monster,
-			boolean hidden) {
+	public boolean addSpSrToField(SpSrCard spsr, MonsterCard monster, boolean hidden) {
 
-		if (!hand.contains(spell))
+		if (!hand.contains(spsr))
 			return false;
 
-		if (spellArea.size() >= 5)
-			throw new NoSpellSpaceException();
+		if (spsrArea.size() >= 5)
+			throw new NoSpSrSpaceException();
 
 		if (phase == Phase.BATTLE)
 			throw new WrongPhaseException();
 
-		hand.remove(spell);
-		spellArea.add(spell);
-		spell.setLocation(Location.FIELD);
+		hand.remove(spsr);
+		spsrArea.add(spsr);
+		spsr.setLocation(Location.FIELD);
 
 		if (!hidden)
-			return activateSetSpell(spell, monster);
+			return activateSetSpSr(spsr, monster);
 
 		return true;
 
 	}
 
-	public boolean activateSetSpell(SpellCard spell, MonsterCard monster) {
+	public boolean activateSetSpSr(SpSrCard spsr, MonsterCard monster) {
 
-		if (!spellArea.contains(spell))
+		if (!spsrArea.contains(spsr))
 			return false;
 
 		if (phase == Phase.BATTLE)
 			throw new WrongPhaseException();
 
-		spell.action(monster);
-		removeSpellToGraveyard(spell);
+		spsr.action(monster);
+		removeSpSrToGraveyard(spsr);
 
 		return true;
 
 	}
 
-	public void removeSpellToGraveyard(SpellCard spell) {
+	public void removeSpSrToGraveyard(SpSrCard spsr) {
 
-		if (!spellArea.contains(spell))
+		if (!spsrArea.contains(spsr))
 			return;
 
-		spellArea.remove(spell);
-		graveyard.add(spell);
-		spell.setLocation(Location.GRAVEYARD);
+		spsrArea.remove(spsr);
+		graveyard.add(spsr);
+		spsr.setLocation(Location.GRAVEYARD);
 
 	}
 
-	public void removeSpellToGraveyard(ArrayList<SpellCard> spells) {
+	public void removeSpSrToGraveyard(ArrayList<SpSrCard> spsr) {
 
-		for (int i = 0; i < spells.size(); i++) {
+		for (int i = 0; i < spsr.size(); i++) {
 
-			SpellCard c = spells.get(i);
+			SpSrCard c = spsr.get(i);
 
-			if (!spellArea.contains(c))
+			if (!spsrArea.contains(c))
 				continue;
 
-			spellArea.remove(c);
+			spsrArea.remove(c);
 			graveyard.add(c);
 			c.setLocation(Location.GRAVEYARD);
 
@@ -182,8 +180,7 @@ public class Field {
 		if (m1.isAttacked())
 			throw new MonsterMultipleAttackException();
 
-		ArrayList<MonsterCard> oppMonstersArea = Card.getBoard()
-				.getOpponentPlayer().getField().monstersArea;
+		ArrayList<MonsterCard> oppMonstersArea = Card.getBoard().getOpponentPlayer().getField().monstersArea;
 
 		if (m2 == null && oppMonstersArea.size() == 0)
 			m1.action();
@@ -297,8 +294,8 @@ public class Field {
 		return monstersArea;
 	}
 
-	public ArrayList<SpellCard> getSpellArea() {
-		return spellArea;
+	public ArrayList<SpSrCard> getSpSrArea() {
+		return spsrArea;
 	}
 
 	public ArrayList<Card> getHand() {
