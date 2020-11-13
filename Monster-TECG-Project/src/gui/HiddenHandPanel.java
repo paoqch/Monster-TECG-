@@ -2,18 +2,14 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import board.player.Player;
 import cards.Card;
-import cards.MonsterCard;
-import cards.spells.SpellCard;
 
 public class HiddenHandPanel extends JPanel {
 	/**
