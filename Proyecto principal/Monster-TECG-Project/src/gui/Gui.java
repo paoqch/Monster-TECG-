@@ -27,7 +27,7 @@ import exceptions.UnexpectedFormatException;
 import listeners.Controller;
 
 public class Gui extends JFrame {
-
+	//Declaracion de variables
 	private static final long serialVersionUID = 1L;
 	private JPanel panel2 ;
 	private SpSrPanel spsrAreap1;
@@ -57,7 +57,7 @@ public class Gui extends JFrame {
 	private JLabel description;
 	private JScrollPane sp1;
 	private JScrollPane sp2;
-
+	//Creacion de interfaz
 	public JScrollPane getSp1() {
 		return sp1;
 	}
