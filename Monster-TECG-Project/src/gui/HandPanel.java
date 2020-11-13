@@ -1,24 +1,21 @@
 package gui;
 
-import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import board.player.Player;
 import cards.Card;
 import cards.MonsterCard;
-import cards.spells.SpellCard;
+import cards.spsr.SpSrCard;
 
 public class HandPanel extends JPanel {
 	private ArrayList<MonsterButton> monsterbuttons;
-	private ArrayList<SpellButton> spellbuttons;
+	private ArrayList<SpSrButton> spsrbuttons;
 	public HandPanel(Player p) {
 		super();
 		update(p);
@@ -37,7 +34,7 @@ public class HandPanel extends JPanel {
 		this.removeAll();
 		this.revalidate();
 		monsterbuttons = new ArrayList<MonsterButton>(20);
-		spellbuttons = new ArrayList<SpellButton>(20);
+		spsrbuttons = new ArrayList<SpSrButton>(20);
 		//setPreferredSize(new Dimension(500,150));
 		ArrayList<Card> hand = p.getField().getHand();
 		this.setLayout(new FlowLayout());
@@ -51,10 +48,10 @@ public class HandPanel extends JPanel {
 			
 		}
 		for (int i = 0; i < 20; i++) {
-			SpellButton s = new SpellButton();
+			SpSrButton s = new SpSrButton();
 			s.setVisible(false);
 			this.add(s);
-			spellbuttons.add(s);
+			spsrbuttons.add(s);
 		}
 		for(int i = 0; i <hand.size();i++){
 			if(hand.get(i) instanceof MonsterCard){
@@ -75,17 +72,17 @@ public class HandPanel extends JPanel {
 			}
 			else{
 				//spellbuttons.get(i).setText(hand.get(i).getName());
-				spellbuttons.get(i).setSpell((SpellCard) hand.get(i));
-				spellbuttons.get(i).setVisible(true);
-				ImageIcon img = new ImageIcon("Cards Images Database/Spells/"+hand.get(i).getName()+".png");
+				spsrbuttons.get(i).setSpSr((SpSrCard) hand.get(i));
+				spsrbuttons.get(i).setVisible(true);
+				ImageIcon img = new ImageIcon("Cards Images Database/SpSr/"+hand.get(i).getName()+".png");
 				Image img2 = img.getImage();
 				Image newimg = img2.getScaledInstance(100, 146,  java.awt.Image.SCALE_SMOOTH);
 				ImageIcon newIcon = new ImageIcon(newimg);
-				spellbuttons.get(i).setIcon(newIcon);
-				spellbuttons.get(i).setPreferredSize(new Dimension(100,146));
-				spellbuttons.get(i).revalidate();
-				spellbuttons.get(i).setOpaque(false);
-				spellbuttons.get(i).repaint();
+				spsrbuttons.get(i).setIcon(newIcon);
+				spsrbuttons.get(i).setPreferredSize(new Dimension(100,146));
+				spsrbuttons.get(i).revalidate();
+				spsrbuttons.get(i).setOpaque(false);
+				spsrbuttons.get(i).repaint();
 			}
 		}
 	}
@@ -95,11 +92,11 @@ public class HandPanel extends JPanel {
 	public void setMonsterbuttons(ArrayList<MonsterButton> monsterbuttons) {
 		this.monsterbuttons = monsterbuttons;
 	}
-	public ArrayList<SpellButton> getSpellbuttons() {
-		return spellbuttons;
+	public ArrayList<SpSrButton> getSpSrbuttons() {
+		return spsrbuttons;
 	}
-	public void setSpellbuttons(ArrayList<SpellButton> spellbuttons) {
-		this.spellbuttons = spellbuttons;
+	public void setSpSrbuttons(ArrayList<SpSrButton> spsrbuttons) {
+		this.spsrbuttons = spsrbuttons;
 	}
 
 }
