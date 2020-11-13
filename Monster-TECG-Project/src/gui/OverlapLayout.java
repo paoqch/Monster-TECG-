@@ -2,12 +2,14 @@ package gui;
 
 import java.awt.*;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
-public class OverlapLayout implements LayoutManager2, java.io.Serializable
-{
+public class OverlapLayout implements LayoutManager2, java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static Boolean POP_UP = Boolean.TRUE;
 	public static Boolean POP_DOWN = Boolean.FALSE;
 
